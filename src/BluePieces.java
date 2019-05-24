@@ -12,7 +12,7 @@ public class BluePieces extends Pieces{
         Graphics2D g2 = (Graphics2D) g;
 
         g2.setPaint(Color.BLUE);
-        g2.fill(new Ellipse2D.Double(50, 50, 250, 250));
+        g2.fill(new Ellipse2D.Double(10, 10, 10, 10));
         
     }
 	public static void main(String[] args) {

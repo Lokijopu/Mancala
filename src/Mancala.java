@@ -1,10 +1,11 @@
 import javax.swing.JFrame;
 
-public class Mancala {
+public class Mancala extends JFrame{
 	private int numTurns;
-	public Mancala()  {
-		JFrame mancalaGUI = new JFrame("Mancala");
+	public Mancala() {
+		setTitle("Mancala");
 		numTurns = 0;
+		
 	}
 	
 	public static void main (String[] args) {
