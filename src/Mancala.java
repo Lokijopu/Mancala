@@ -1,4 +1,6 @@
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -10,8 +12,10 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Mancala extends JFrame{
@@ -21,20 +25,23 @@ public class Mancala extends JFrame{
 	public Mancala() {
 		setTitle("Mancala");
 		numTurns = 0;
-		setBounds(300, 300, 300, 200);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLayout(new GridBagLayout());
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		GridBagConstraints gbc = new GridBagConstraints();
 		CardLayout cL = new CardLayout();
 		JPanel overall = new JPanel();
 		overall.setLayout(cL);
 		
-		JPanel panel1 = new JPanel();
+		JPanel homePanel = new JPanel();
+		homePanel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.fill = GridBagConstraints.VERTICAL;
 		JLabel mancalaLabel = new JLabel("Mancala");
+		mancalaLabel.setFont(new Font("TimesRoman", Font.BOLD | Font.ITALIC, 40));
+		homePanel.add(mancalaLabel);
 		JButton start = new JButton("Start");
-		panel1.add(mancalaLabel);
-		panel1.add(start);
 		start.addActionListener(new ActionListener() {
 
 			@Override
@@ -44,9 +51,10 @@ public class Mancala extends JFrame{
 			}
 			
 		});
-		JPanel panel2 = new JPanel();
+		homePanel.add(start);
+		JPanel instrPanel = new JPanel();
 		JButton play = new JButton("Play");
-		panel2.add(play);
+		instrPanel.add(play);
 		play.addActionListener(new ActionListener() {
 
 			@Override
@@ -57,9 +65,9 @@ public class Mancala extends JFrame{
 			
 		});
 		
-		JPanel panel3 = new JPanel();
+		JPanel boardPanel = new JPanel();
 		JButton home = new JButton("Home");
-		panel3.add(home);
+		boardPanel.add(home);
 		home.addActionListener(new ActionListener() {
 
 			@Override
@@ -69,14 +77,45 @@ public class Mancala extends JFrame{
 			}
 			
 		});
-		BufferedImage buttonIcon = ImageIO.read(new File("Mancala Board.jfif"));
-		JButton button = new JButton(new ImageIcon(buttonIcon));
+		ImageIcon image = new ImageIcon(getClass().getResource("Mancala board.jfif"));
+		JButton button = new JButton(image);
 		button.setBorder(BorderFactory.createEmptyBorder());
 		button.setContentAreaFilled(false);
+		button.setPreferredSize(new Dimension(100, 100));
+		boardPanel.add(button);
 		
-		overall.add(panel1, "panel 1");
-		overall.add(panel2, "panel 2");
-		overall.add(panel3, "panel 3");
+		JPanel langPanel = new JPanel();
+		JLabel langLabel = new JLabel("Choose your language:");
+		JComboBox<String> languages = new JComboBox<String>();
+		langPanel.add(langLabel);
+		languages.addItem("Select your language");
+		languages.addItem("English");
+		languages.addItem("German");
+		languages.addItem("Spanish");
+		languages.addItem("Chinese");
+		languages.addItem("Japanese");
+		languages.addItem("Korean");
+		languages.addItem("Latin");
+		languages.addItem("French");
+		langPanel.add(languages);
+		JButton ok = new JButton("Ok");
+		ok.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				if (languages.getSelectedItem().equals("")) {
+					
+				} else {
+					JOptionPane.showMessageDialog(langPanel, "Please select a language.");
+				}
+				
+				cL.show(overall, "panel 3");
+			}
+			
+		});
+			
+		overall.add(homePanel, "panel 1");
+		overall.add(instrPanel, "panel 2");
+		overall.add(boardPanel, "panel 3");
 		
 		cL.show(overall, "panel1");
 		add(overall);
